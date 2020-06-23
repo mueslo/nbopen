@@ -17,6 +17,7 @@ def find_best_server(filename):
     except ValueError:
         return None
 
+basedirs = []
 
 def nbopen(filename):
     filename = os.path.abspath(filename)
@@ -33,8 +34,11 @@ def nbopen(filename):
         browser = webbrowser.get(na.browser or None)
         browser.open(url, new=2)
     else:
-        if filename.startswith(home_dir):
-            nbdir = home_dir
+        bds = [home_dir] + basedirs
+        for basedir in bds:
+            if filename.startswith(basedir):
+                nbdir = basedir
+                break
         else:
             nbdir = os.path.dirname(filename)
 
